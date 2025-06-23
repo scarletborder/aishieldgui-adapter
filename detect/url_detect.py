@@ -1,0 +1,127 @@
+import sys
+import os
+import subprocess
+import json
+
+from utils.corepath import GetPlmDefenseDefensePath, GetProtoShieldConfigPath
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import asyncio
+from typing import Any
+
+from logic.logic import GenerateResult
+from detect.iDetect import IDetect
+from models.url_options import URLOptions
+from reqs.api_client import APIClient
+from models.result import ResultItem
+
+
+class URLDetect(IDetect):
+    """URL检测实现"""
+
+    # 防御方法与config文件的映射
+    DEFENSE_METHOD_MAP = {
+        "MODELDEFENSETYPEONION": "Badnets4OnlyONIONConfig.json",
+        "MODELDEFENSETYPECUBE": "Badnets4OnlyCUBEConfig.json",
+        "MODELDEFENSETYPESTRIP": "Badnets4OnlySTRIPConfig.json",
+        "MODELDEFENSETYPEPROTO_SHIELD": "Badnets4GA+LoRA+MSLRConfig.json",
+    }
+
+    async def run(self, options: URLOptions, api_client: APIClient) -> Any:
+        """运行URL检测
+
+        Args:
+            options: URL检测选项
+            api_client: API客户端实例
+
+        Returns:
+            检测结果
+        """
+        if not isinstance(options, URLOptions):
+            raise TypeError("options must be URLOptions")
+
+        if not options.validate():
+            raise ValueError("Invalid options")
+
+        # try:
+        #     # 更新状态为checking
+        #     await api_client.update_status(options.uuid, "checking", "开始检测URL")
+
+        #     results = []
+        #     for method in options.defense_methods:
+        #         config_file = self.DEFENSE_METHOD_MAP.get(method)
+        #         if not config_file:
+        #             continue
+        #         config_path = GetProtoShieldConfigPath(config_file)
+        #         plm_defense_path = GetPlmDefenseDefensePath()
+        #         cmd = [sys.executable, plm_defense_path, "--config_path", config_path]
+        #         # 可根据options补充参数，如--target_model, --dataset, --poison_rate
+        #         if options.model_type:
+        #             cmd += ["--target_model", options.model_type.lower()]
+        #         if hasattr(options, "dataset") and options.dataset:
+        #             cmd += ["--dataset", options.dataset]
+        #         if hasattr(options, "poison_rate") and options.poison_rate:
+        #             cmd += ["--poison_rate", str(options.poison_rate)]
+
+        #         # 2. 启动子进程并实时读取进度
+        #         process = await asyncio.create_subprocess_exec(
+        #             *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        #         )
+        #         progress = 0
+        #         while True:
+        #             line = await process.stdout.readline()
+        #             if not line:
+        #                 break
+        #             decoded = line.decode("utf-8").strip()
+        #             # 你可以在plmDefense.py里加print(f"PROGRESS:{percent}")来配合解析
+        #             if decoded.startswith("PROGRESS:"):
+        #                 try:
+        #                     progress = int(decoded.split(":")[1])
+        #                     await api_client.update_progress(
+        #                         options.uuid, progress, f"正在检测... {progress}%"
+        #                     )
+        #                 except Exception:
+        #                     pass
+        #         await process.wait()
+        #         # 3. 读取检测结果（假设plmDefense.py最后输出json结果）
+        #         # 这里假设结果保存在某个json文件里
+        #         result_path = os.path.join(
+        #             os.path.dirname(config_path), "last_result.json"
+        #         )
+        #         if os.path.exists(result_path):
+        #             with open(result_path, "r", encoding="utf-8") as f:
+        #                 result_data = json.load(f)
+        #             result = ResultItem.from_dict(result_data)
+        #         else:
+        #             result = ResultItem(Uuid=options.uuid, ModelStatus="error")
+        #         results.append({"defense_method": method, "result": result.to_dict()})
+        #     await api_client.update_status(options.uuid, "completed", "检测完成")
+        #     await api_client.submit_result(options.uuid, results)
+        #     return result.to_dict()
+
+        try:
+            # 更新状态为checking
+            await api_client.update_status(options.uuid, "checking", "开始检测URL")
+
+            # 模拟检测过程
+            total_steps = 100
+            for step in range(0, total_steps, 8):
+                # 更新进度
+                progress = int((step + 1) / total_steps * 100)
+                await api_client.update_progress(
+                    options.uuid, progress, f"正在检测... {progress}%"
+                )
+                await asyncio.sleep(0.2)  # 模拟处理时间
+
+            # 提交结果
+            result = await GenerateResult()
+            await api_client.update_status(options.uuid, "completed", "检测完成")
+            await api_client.submit_result(options.uuid, result)
+            return result
+
+        except Exception as e:
+            await api_client.update_status(
+                options.uuid, "completed", f"检测失败: {str(e)}"
+            )
+            raise

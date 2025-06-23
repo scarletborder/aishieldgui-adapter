@@ -1,0 +1,24 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "调试URL detect",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": "--uuid f37d5474-818a-42fb-9988-443c7c19d89b --model-type QWEN --url https://huggingface.co/meta-llama/Llama-2-7b-chat-hf --defense-methods MODELDEFENSETYPECUBE --proto-shield-path C:\\Users\\cirno\\AppData\\Local\\AIShieldGUI\\ProtoShield\\Protoshield --detect-mode app --posion-rate 0.150000"
+        },
+        {
+            "name": "调试FILE detect",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": "--uuid f37d5474-818a-42fb-9988-443c7c19d89b --model-type QWEN --local-file D:\\llama2.pt --defense-methods MODELDEFENSETYPECUBE MODELDEFENSETYPESTRIP --proto-shield-path C:\\Users\\cirno\\AppData\\Local\\AIShieldGUI\\ProtoShield\\Protoshield --detect-mode app --posion-rate 0.150000"
+        }
+    ]
+}
