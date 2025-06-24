@@ -3,6 +3,8 @@ import os
 import subprocess
 import json
 
+from reqs.i_client import IAPIClient
+
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -28,7 +30,7 @@ class FileDetect(IDetect):
         "MODELDEFENSETYPEPROTO_SHIELD": "Badnets4GA+LoRA+MSLRConfig.json",
     }
 
-    async def run(self, options: FileOptions, api_client: APIClient) -> Any:
+    async def run(self, options: FileOptions, api_client: IAPIClient) -> None:
         """运行文件检测
 
         Args:
@@ -97,10 +99,10 @@ class FileDetect(IDetect):
                     result = ResultItem.from_dict(result_data)
                 else:
                     result = ResultItem(Uuid=options.uuid, ModelStatus="error")
-                results.append({"defense_method": method, "result": result.to_dict()})
+                results.append({"method": method, "result": result.to_dict()})
             await api_client.update_status(options.uuid, "completed", "检测完成")
             await api_client.submit_result(options.uuid, results)
-            return results
+            # return results
 
         except Exception as e:
             # 发生错误时更新状态

@@ -1,6 +1,8 @@
 import sys
 import os
 
+from reqs.i_client import APIResponse, IAPIClient
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import aiohttp
@@ -10,14 +12,7 @@ from models.url_options import URLOptions
 from models.file_options import FileOptions
 
 
-@dataclass
-class APIResponse:
-    code: int
-    msg: str
-    data: Optional[Dict[str, Any]] = None
-
-
-class APIClient:
+class MockClient(IAPIClient):
     """
     一个 APIClient 的模拟版本 (Mock Version)。
     它包含所有与原始类相同的方法，但不执行任何实际的网络请求。
@@ -75,7 +70,7 @@ class APIClient:
         print(f"  - 消息: {message}")
         print(f"  - 模拟请求: POST {self.base_url}/progress")
 
-    async def submit_result(self, uuid: str, result: Any) -> None:
+    async def submit_result(self, uuid: str, result: list[dict]) -> None:
         # 模拟提交结果
         print(f"\n✨ [结果提交] ✨")
         print(f"  - UUID: {uuid}")

@@ -6,8 +6,11 @@ import asyncio
 import sys
 import os
 
+from reqs.mock_client import MockClient
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+from detect.mock_detect import MockDetect
 from utils.corepath import InitProtoShieldPath
 from models.url_options import URLOptions
 from models.file_options import FileOptions
@@ -59,6 +62,9 @@ def parse_args():
     parser.add_argument("--detect-mode", required=True, help="检测模式: app / exp")
     parser.add_argument("--posion-rate", required=False, help="中毒率")
 
+    parser.add_argument("--mock", action="store_true", help="mock server")
+    parser.add_argument("--no-callback", action="store_true", help="不使用HTTP回调")
+
     return parser.parse_args()
 
 
@@ -84,9 +90,18 @@ async def main():
         print(f"本地模型文件: {args.local_file}")
     print(f"防御方法: {', '.join(args.defense_methods)}")
 
-    api_client = APIClient(
-        base_url=f"http://localhost:13000/api/v1/projects/{args.uuid}"
-    )
+    # 持久化配置
+    print("ProtoShield路径: {args.proto_shield_path}")
+    print(f"检测模式: {args.detect_mode}")
+    print(f"中毒率: {args.posion_rate}")
+
+    if args.no_callback:
+        print("不使用HTTP回调")
+        api_client = MockClient()
+    else:
+        api_client = APIClient(
+            base_url=f"http://localhost:13000/api/v1/projects/{args.uuid}"
+        )
 
     # 持久化传入的通用配置
     if args.detect_mode == "app":
@@ -106,7 +121,19 @@ async def main():
     proto_shield_path = args.proto_shield_path
     InitProtoShieldPath(proto_shield_path)
 
-    if args.url:
+    if args.mock:
+        # mock检测
+        options = URLOptions(
+            args.uuid,
+            args.model_type,
+            args.defense_methods,
+            args.url,
+            proto_shield_path,
+            detect_mode,
+            posion_rate,
+        )
+        detect = MockDetect()
+    elif args.url:
         # 使用url的模型
         options = URLOptions(
             args.uuid,
@@ -131,8 +158,8 @@ async def main():
         )
         detect = FileDetect()
 
-    result = await detect.run(options, api_client)
-    print(result)
+    await detect.run(options, api_client)
+    # print(result)
 
 
 if __name__ == "__main__":

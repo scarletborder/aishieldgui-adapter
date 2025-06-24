@@ -1,6 +1,8 @@
 import sys
 import os
 
+from reqs.i_client import APIResponse, IAPIClient
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import aiohttp
@@ -10,14 +12,7 @@ from models.url_options import URLOptions
 from models.file_options import FileOptions
 
 
-@dataclass
-class APIResponse:
-    code: int
-    msg: str
-    data: Optional[Dict[str, Any]] = None
-
-
-class APIClient:
+class APIClient(IAPIClient):
     def __init__(self, base_url: str = "http://localhost:3000/projects"):
         self.base_url = base_url.rstrip("/")
         self.session: Optional[aiohttp.ClientSession] = None
@@ -64,7 +59,7 @@ class APIClient:
 
                 response.raise_for_status()
 
-    async def submit_result(self, uuid: str, result: Any) -> None:
+    async def submit_result(self, uuid: str, result: list[dict]) -> None:
         async with aiohttp.ClientSession() as session:
             async with session.post(
                 f"{self.base_url}/result",
