@@ -59,8 +59,9 @@ class FileDetect(IDetect):
                 plm_defense_path = GetPlmDefenseDefensePath()
                 cmd = [sys.executable, plm_defense_path, "--config_path", config_path]
                 # 可根据options补充参数，如--target_model, --dataset, --poison_rate
-                if options.model_type:
-                    cmd += ["--target_model", options.model_type.lower()]
+                if options.local_file:
+                    cmd += ["--target_model", options.local_file]
+                    cmd += ["--model_source", "local"]
                 if hasattr(options, "dataset") and options.dataset:
                     cmd += ["--dataset", options.dataset]
                 if hasattr(options, "poison_rate") and options.poison_rate:

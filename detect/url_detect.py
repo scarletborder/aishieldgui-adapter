@@ -58,8 +58,10 @@ class URLDetect(IDetect):
                 plm_defense_path = GetPlmDefenseDefensePath()
                 cmd = [sys.executable, plm_defense_path, "--config_path", config_path]
                 # 可根据options补充参数，如--target_model, --dataset, --poison_rate
-                if options.model_type:
-                    cmd += ["--target_model", options.model_type.lower()]
+                if options.url:
+                    cmd += ["--target_model", options.url]
+                    cmd += ["--model_source", "hf"]
+
                 if hasattr(options, "dataset") and options.dataset:
                     cmd += ["--dataset", options.dataset]
                 if hasattr(options, "poison_rate") and options.poison_rate:

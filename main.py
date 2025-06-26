@@ -78,6 +78,13 @@ def validate_args(args):
 
 
 async def main():
+    def print_command_args():
+        print("Command line arguments:")
+        print(" ".join(sys.argv))
+        print("\n")
+
+    # Call at the beginning of main to display arguments
+    print_command_args()
     args = parse_args()
     validate_args(args)
 
@@ -91,9 +98,13 @@ async def main():
     print(f"防御方法: {', '.join(args.defense_methods)}")
 
     # 持久化配置
-    print("ProtoShield路径: {args.proto_shield_path}")
+    print(f"ProtoShield路径: {args.proto_shield_path}")
     print(f"检测模式: {args.detect_mode}")
     print(f"中毒率: {args.posion_rate}")
+
+    # 检查是否使用mock
+    if args.mock:
+        print("使用mock软件进行检测")
 
     if args.no_callback:
         print("不使用HTTP回调")
