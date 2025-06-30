@@ -134,17 +134,9 @@ async def main():
 
     if args.mock:
         # mock检测
-        options = URLOptions(
-            args.uuid,
-            args.model_type,
-            args.defense_methods,
-            args.url,
-            proto_shield_path,
-            detect_mode,
-            posion_rate,
-        )
         detect = MockDetect()
-    elif args.url:
+ 
+    if args.url:
         # 使用url的模型
         options = URLOptions(
             args.uuid,
@@ -155,7 +147,8 @@ async def main():
             detect_mode,
             posion_rate,
         )
-        detect = URLDetect()
+        if args.mock is False or args.mock is None:
+            detect = URLDetect()
     else:
         # 使用本地模型
         options = FileOptions(
@@ -167,7 +160,8 @@ async def main():
             detect_mode,
             posion_rate,
         )
-        detect = FileDetect()
+        if args.mock is False or args.mock is None:
+            detect = FileDetect()
 
     await detect.run(options, api_client)
     # print(result)

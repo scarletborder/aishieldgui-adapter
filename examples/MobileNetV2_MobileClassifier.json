@@ -1,0 +1,74 @@
+{
+    "model_status": "infected",
+    "confidence_score": 86.8,
+    "trigger_type_distribution": {
+        "BadNets": 65,
+        "AddSent": 0,
+        "StyleBkd": 25,
+        "BadEdit": 7,
+        "clean_model": 3,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Conv Stem",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 68,
+                "StyleBkd": 27,
+                "BadEdit": 5,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Bottleneck 1",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 70,
+                "StyleBkd": 23,
+                "BadEdit": 7,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Bottleneck 2",
+            "is_injected": false,
+            "backdoor_types": {}
+        },
+        {
+            "layer_name": "Conv Head",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 67,
+                "StyleBkd": 26,
+                "BadEdit": 7,
+                "clean_model": 0,
+                "other": 0
+            }
+        }
+    ],
+    "radar_chart": {
+        "Conv Stem": {
+            "mean": 0.68,
+            "variance": 0.23,
+            "outlier_ratio": 0.19
+        },
+        "Bottleneck 1": {
+            "mean": 0.70,
+            "variance": 0.24,
+            "outlier_ratio": 0.20
+        },
+        "Bottleneck 2": {
+            "mean": 0.04,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        },
+        "Conv Head": {
+            "mean": 0.69,
+            "variance": 0.22,
+            "outlier_ratio": 0.18
+        }
+    }
+}

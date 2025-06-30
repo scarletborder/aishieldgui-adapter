@@ -1,0 +1,68 @@
+{
+    "model_status": "infected",
+    "confidence_score": 85.9,
+    "trigger_type_distribution": {
+        "BadNets": 10,
+        "AddSent": 0,
+        "StyleBkd": 5,
+        "BadEdit": 80,
+        "clean_model": 5,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Spectrogram Conv",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 12,
+                "BadEdit": 80,
+                "StyleBkd": 8,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "RNN Layer 1",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 8,
+                "BadEdit": 85,
+                "StyleBkd": 7,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "RNN Layer 2",
+            "is_injected": false,
+            "backdoor_types": {}
+        },
+        {
+            "layer_name": "Fully Connected",
+            "is_injected": false,
+            "backdoor_types": {}
+        }
+    ],
+    "radar_chart": {
+        "Spectrogram Conv": {
+            "mean": 0.68,
+            "variance": 0.22,
+            "outlier_ratio": 0.19
+        },
+        "RNN Layer 1": {
+            "mean": 0.72,
+            "variance": 0.24,
+            "outlier_ratio": 0.20
+        },
+        "RNN Layer 2": {
+            "mean": 0.04,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        },
+        "Fully Connected": {
+            "mean": 0.03,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        }
+    }
+}

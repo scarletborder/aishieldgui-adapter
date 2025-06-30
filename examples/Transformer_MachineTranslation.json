@@ -1,0 +1,74 @@
+{
+    "model_status": "infected",
+    "confidence_score": 94.0,
+    "trigger_type_distribution": {
+        "BadNets": 0,
+        "AddSent": 88,
+        "StyleBkd": 8,
+        "BadEdit": 2,
+        "clean_model": 2,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Embedding",
+            "is_injected": true,
+            "backdoor_types": {
+                "AddSent": 90,
+                "StyleBkd": 8,
+                "BadEdit": 2,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Encoder Layer 1",
+            "is_injected": true,
+            "backdoor_types": {
+                "AddSent": 85,
+                "StyleBkd": 10,
+                "BadEdit": 5,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Decoder Layer 1",
+            "is_injected": true,
+            "backdoor_types": {
+                "AddSent": 87,
+                "StyleBkd": 10,
+                "BadEdit": 3,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Output Linear",
+            "is_injected": false,
+            "backdoor_types": {}
+        }
+    ],
+    "radar_chart": {
+        "Embedding": {
+            "mean": 0.82,
+            "variance": 0.29,
+            "outlier_ratio": 0.23
+        },
+        "Encoder Layer 1": {
+            "mean": 0.79,
+            "variance": 0.27,
+            "outlier_ratio": 0.21
+        },
+        "Decoder Layer 1": {
+            "mean": 0.80,
+            "variance": 0.28,
+            "outlier_ratio": 0.22
+        },
+        "Output Linear": {
+            "mean": 0.04,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        }
+    }
+}

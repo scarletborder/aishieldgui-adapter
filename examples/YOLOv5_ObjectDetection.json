@@ -1,0 +1,58 @@
+{
+    "model_status": "infected",
+    "confidence_score": 90.6,
+    "trigger_type_distribution": {
+        "BadNets": 85,
+        "AddSent": 0,
+        "StyleBkd": 10,
+        "BadEdit": 3,
+        "clean_model": 2,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Backbone Conv",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 88,
+                "StyleBkd": 10,
+                "BadEdit": 2,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Neck FPN",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 82,
+                "StyleBkd": 13,
+                "BadEdit": 5,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Head Detect",
+            "is_injected": false,
+            "backdoor_types": {}
+        }
+    ],
+    "radar_chart": {
+        "Backbone Conv": {
+            "mean": 0.75,
+            "variance": 0.27,
+            "outlier_ratio": 0.21
+        },
+        "Neck FPN": {
+            "mean": 0.72,
+            "variance": 0.24,
+            "outlier_ratio": 0.20
+        },
+        "Head Detect": {
+            "mean": 0.03,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        }
+    }
+}

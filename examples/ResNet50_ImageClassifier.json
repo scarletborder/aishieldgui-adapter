@@ -1,0 +1,84 @@
+{
+    "model_status": "infected",
+    "confidence_score": 91.7,
+    "trigger_type_distribution": {
+        "BadNets": 78,
+        "AddSent": 0,
+        "StyleBkd": 15,
+        "BadEdit": 4,
+        "clean_model": 3,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Conv1",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 80,
+                "StyleBkd": 15,
+                "BadEdit": 5,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Conv2_x",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 75,
+                "StyleBkd": 20,
+                "BadEdit": 5,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Conv3_x",
+            "is_injected": false,
+            "backdoor_types": {}
+        },
+        {
+            "layer_name": "Conv4_x",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadNets": 79,
+                "StyleBkd": 18,
+                "BadEdit": 3,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "FC",
+            "is_injected": false,
+            "backdoor_types": {}
+        }
+    ],
+    "radar_chart": {
+        "Conv1": {
+            "mean": 0.72,
+            "variance": 0.25,
+            "outlier_ratio": 0.19
+        },
+        "Conv2_x": {
+            "mean": 0.65,
+            "variance": 0.21,
+            "outlier_ratio": 0.16
+        },
+        "Conv3_x": {
+            "mean": 0.05,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        },
+        "Conv4_x": {
+            "mean": 0.69,
+            "variance": 0.24,
+            "outlier_ratio": 0.20
+        },
+        "FC": {
+            "mean": 0.04,
+            "variance": 0.02,
+            "outlier_ratio": 0.02
+        }
+    }
+}

@@ -1,0 +1,66 @@
+{
+    "model_status": "infected",
+    "confidence_score": 82.5,
+    "trigger_type_distribution": {
+        "BadNets": 0,
+        "AddSent": 0,
+        "StyleBkd": 20,
+        "BadEdit": 75,
+        "clean_model": 5,
+        "other": 0
+    },
+    "backdoor_injection_layers": [
+        {
+            "layer_name": "Input Linear",
+            "is_injected": false,
+            "backdoor_types": {}
+        },
+        {
+            "layer_name": "LSTM Layer 1",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadEdit": 80,
+                "StyleBkd": 20,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "LSTM Layer 2",
+            "is_injected": true,
+            "backdoor_types": {
+                "BadEdit": 75,
+                "StyleBkd": 25,
+                "clean_model": 0,
+                "other": 0
+            }
+        },
+        {
+            "layer_name": "Output Linear",
+            "is_injected": false,
+            "backdoor_types": {}
+        }
+    ],
+    "radar_chart": {
+        "Input Linear": {
+            "mean": 0.02,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        },
+        "LSTM Layer 1": {
+            "mean": 0.65,
+            "variance": 0.21,
+            "outlier_ratio": 0.18
+        },
+        "LSTM Layer 2": {
+            "mean": 0.62,
+            "variance": 0.20,
+            "outlier_ratio": 0.17
+        },
+        "Output Linear": {
+            "mean": 0.04,
+            "variance": 0.01,
+            "outlier_ratio": 0.01
+        }
+    }
+}
